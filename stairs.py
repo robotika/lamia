@@ -37,20 +37,19 @@ def step2( robot ):
     move( robot, -20, 5 )
     robot.update( cmd=addCapOffsetCmd(math.radians(10)) )
 
+
 def backup( robot ):
     "fall back in order to save the sequence"
-    robot.update( cmd=addCapOffsetCmd(math.radians(-180)) )
-    move( robot, 20, 40 )
-    robot.update( cmd=addCapOffsetCmd(math.radians(180)) )
+    move( robot, -20, 10 )
+    move( robot, 20, 20 )
+    move( robot, -20, 5 )
+
 
 def tourTheStairs2015( robot ):
     step1(robot)
-    for i in xrange(3):
+    for i in xrange(30):
         step2(robot)
-#            move( robot, -20, 3 )
-    backup( robot )
-    for i in xrange(10):
-        step2(robot)
+        backup( robot )
 
 
 if __name__ == "__main__":
