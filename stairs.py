@@ -14,26 +14,43 @@ from commands import moveCmd, jumpCmd, loadCmd, postureCmd, addCapOffsetCmd, set
 from apyros.metalog import MetaLog, disableAsserts
 from apyros.manual import myKbhit, ManualControlException
 
-def demo( robot ):
-    "test jump"
-    for i in xrange(20):
-        robot.update( cmd=moveCmd(10,0) )
+def move( robot, speed, steps ):
+    for i in xrange(steps):
+        robot.update( cmd=moveCmd(speed, 0) )
     robot.update( cmd=moveCmd(0,0) )
+
+def step1( robot ):
+#    move( robot, 20, 30 )
+    move( robot, -20, 20 )
     robot.wait(1.0)
-    print "jump"
     robot.update( cmd=jumpCmd(1), ackRequest=True )
-    robot.wait(10.0)
-
-
-def demo1( robot ):
-    "test offset"
-    robot.update( cmd=setVolumeCmd(10) )
-    robot.update( cmd=addCapOffsetCmd(math.radians(90)) )
+    robot.wait(5.0)
+    move( robot, 20, 10 )
+    move( robot, 0, 10 )
+    move( robot, -20, 5 )
     robot.wait(1.0)
+
+def step2( robot ):
+    robot.update( cmd=jumpCmd(1), ackRequest=True )
+    robot.wait(5.0)
+    move( robot, 20, 20 )
+    move( robot, -20, 5 )
+    robot.update( cmd=addCapOffsetCmd(math.radians(10)) )
+
+def backup( robot ):
+    "fall back in order to save the sequence"
     robot.update( cmd=addCapOffsetCmd(math.radians(-180)) )
-    robot.wait(1.0)
-    robot.update( cmd=addCapOffsetCmd(math.radians(90)) )
-    robot.wait(1.0)
+    move( robot, 20, 40 )
+    robot.update( cmd=addCapOffsetCmd(math.radians(180)) )
+
+def tourTheStairs2015( robot ):
+    step1(robot)
+    for i in xrange(3):
+        step2(robot)
+#            move( robot, -20, 3 )
+    backup( robot )
+    for i in xrange(10):
+        step2(robot)
 
 
 if __name__ == "__main__":
@@ -46,8 +63,8 @@ if __name__ == "__main__":
     if len(sys.argv) > 3 and sys.argv[3] == 'F':
         disableAsserts()
 
-    robot = JumpingSumo( metalog=metalog )
-    demo( robot )
+    robot = JumpingSumo( metalog=metalog )    
+    tourTheStairs2015( robot )
     print "Battery:", robot.battery
 
 # vim: expandtab sw=4 ts=4 
