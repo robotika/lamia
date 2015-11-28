@@ -76,7 +76,7 @@ class VideoFrames:
                 print "%.1f%%" %  (100*self.statCount/float(self.statLast-self.statFirst+1),)
 
 
-def navdata2video( inputFile, outputFile, outDir = ".", dumpIndividualFrames=False, startIndex=0 ):
+def navdata2video( inputFile, outputFile, outDir = ".", dumpIndividualFrames=False, startIndex=0, frameExt=".bin" ):
     data = open(inputFile, "rb").read()
     out = open(outputFile, "wb")
     vf = VideoFrames()
@@ -88,7 +88,7 @@ def navdata2video( inputFile, outputFile, outDir = ".", dumpIndividualFrames=Fal
         frame = vf.getFrame()
         if frame:
             if dumpIndividualFrames:
-                fout = open(outDir+os.sep+"frame%04d.bin" % frameIndex, "wb")
+                fout = open(outDir+os.sep+("frame%04d" % frameIndex) + frameExt, "wb")
                 fout.write(frame)
                 fout.close()                    
                 frameIndex += 1
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     else:
         outDir = sys.argv[3]
         startIndex = len(os.listdir( outDir ))
-        navdata2video( sys.argv[1], sys.argv[2], outDir=outDir, dumpIndividualFrames=True, startIndex=startIndex )
+        navdata2video( sys.argv[1], sys.argv[2], outDir=outDir, dumpIndividualFrames=True, startIndex=startIndex, frameExt=".jpg" )
 
 # vim: expandtab sw=4 ts=4 
 
