@@ -38,6 +38,20 @@ def postureCmd( param ):
     # ARCOMMANDS_ID_JUMPINGSUMO_PILOTING_CMD_POSTURE = 1,
     return struct.pack("<BBHI", 3, 0, 1, param )
 
+def addCapOffsetCmd( offset ):
+    "Add the specified offset to the current cap."
+    # ARCOMMANDS_ID_PROJECT_JUMPINGSUMO = 3,
+    # ARCOMMANDS_ID_JUMPINGSUMO_CLASS_PILOTING = 0,
+    # ARCOMMANDS_ID_JUMPINGSUMO_PILOTING_CMD_ADDCAPOFFSET = 2,
+    # offset Offset value in radians.
+    return struct.pack("<BBHf", 3, 0, 2, offset )
+
+def setVolumeCmd( volume ):
+    "Master audio volume [0:100]"
+    # ARCOMMANDS_ID_PROJECT_JUMPINGSUMO = 3,
+    # ARCOMMANDS_ID_JUMPINGSUMO_CLASS_AUDIOSETTINGS = 12,
+    # ARCOMMANDS_ID_JUMPINGSUMO_AUDIOSETTINGS_CMD_MASTERVOLUME = 0,
+    return struct.pack("<BBHB", 3, 12, 0, volume )
 
 
 def setDateCmd( date ):
