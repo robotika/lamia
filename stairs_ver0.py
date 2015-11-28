@@ -13,13 +13,12 @@ def demo( numSteps ):
     cnt = sumo.SumoController('MyCtrl')
     cnt.connect()
     cnt.move(10)
-    time.sleep(3.0)
-    cnt.move(-10)
-    time.sleep(3.0)
+    time.sleep(1.0)
     cnt.move(0)
-    cnt.jump(1) # somehow does not work
+    time.sleep(1.0)
+    cnt.jump(1)
     time.sleep(3.0)
-    cnt.move(0)
+    cnt.terminate()
 
 
 if __name__ == "__main__":
